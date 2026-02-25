@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Support — Behind Skiing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --navy:#0A0F1A; --card:#14233F; --border:rgba(100,164,255,0.12);
+    --cyan:#64B4FF; --green:#00E5A0; --amber:#FFB830;
+    --text:#E8F4FF; --muted:rgba(160,200,255,0.55);
+  }
+  body { background:var(--navy); color:var(--text); font-family:'Barlow',sans-serif; font-weight:300; line-height:1.7; }
+  nav { position:fixed; top:0; left:0; right:0; z-index:100; display:flex; align-items:center; justify-content:space-between; padding:18px 40px; background:rgba(10,15,26,0.9); backdrop-filter:blur(12px); border-bottom:1px solid var(--border); }
+  .nav-logo { font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:20px; letter-spacing:1px; color:var(--text); text-decoration:none; }
+  .nav-logo span { color:var(--cyan); }
+  .nav-back { font-size:13px; font-weight:500; letter-spacing:0.8px; text-transform:uppercase; color:var(--muted); text-decoration:none; transition:color 0.2s; }
+  .nav-back:hover { color:var(--cyan); }
+
+  .hero { padding:140px 24px 80px; text-align:center; max-width:700px; margin:0 auto; }
+  .page-label { font-family:'Barlow Condensed',sans-serif; font-size:11px; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:var(--cyan); opacity:0.6; margin-bottom:12px; }
+  .page-title { font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:clamp(40px,8vw,72px); text-transform:uppercase; line-height:1; margin-bottom:16px; }
+  .page-sub { font-size:16px; color:var(--muted); max-width:440px; margin:0 auto; }
+
+  .section { max-width:900px; margin:0 auto; padding:60px 24px; }
+
+  /* FAQ */
+  .faq-list { display:flex; flex-direction:column; gap:2px; }
+  .faq-item { border:1px solid var(--border); border-radius:12px; overflow:hidden; background:var(--card); }
+  .faq-q {
+    width:100%; display:flex; align-items:center; justify-content:space-between;
+    padding:22px 28px; background:none; border:none; color:var(--text);
+    font-family:'Barlow',sans-serif; font-size:15px; font-weight:500;
+    text-align:left; cursor:pointer; gap:16px;
+  }
+  .faq-q:hover { background:rgba(100,164,255,0.05); }
+  .faq-chevron { font-size:18px; color:var(--cyan); flex-shrink:0; transition:transform 0.25s; }
+  .faq-a { display:none; padding:0 28px 22px; font-size:14px; color:var(--muted); line-height:1.7; }
+  .faq-item.open .faq-a { display:block; }
+  .faq-item.open .faq-chevron { transform:rotate(180deg); }
+
+  /* Contact cards */
+  .contact-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px; margin-top:48px; }
+  .contact-card { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:32px 28px; text-align:center; transition:border-color 0.2s; }
+  .contact-card:hover { border-color:rgba(100,164,255,0.35); }
+  .contact-icon { font-size:32px; margin-bottom:16px; }
+  .contact-card h3 { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:18px; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px; }
+  .contact-card p { font-size:13px; color:var(--muted); margin-bottom:20px; }
+  .contact-btn { display:inline-block; padding:10px 24px; border:1px solid var(--cyan); border-radius:100px; font-size:12px; font-weight:500; letter-spacing:0.8px; text-transform:uppercase; color:var(--cyan); text-decoration:none; transition:background 0.2s, color 0.2s; }
+  .contact-btn:hover { background:var(--cyan); color:var(--navy); }
+
+  /* Known issues */
+  .issue-list { display:flex; flex-direction:column; gap:12px; margin-top:32px; }
+  .issue-row { display:flex; align-items:flex-start; gap:16px; padding:18px 24px; background:var(--card); border:1px solid var(--border); border-radius:12px; }
+  .issue-status { font-size:10px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; padding:4px 10px; border-radius:100px; flex-shrink:0; margin-top:2px; }
+  .status-fixed { background:rgba(0,229,160,0.12); color:var(--green); border:1px solid rgba(0,229,160,0.25); }
+  .status-investigating { background:rgba(255,184,48,0.12); color:var(--amber); border:1px solid rgba(255,184,48,0.25); }
+  .issue-row p { font-size:14px; color:rgba(200,220,255,0.8); }
+
+  .section-title { font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:32px; text-transform:uppercase; letter-spacing:-0.3px; margin-bottom:8px; }
+  .section-sub { font-size:14px; color:var(--muted); margin-bottom:36px; }
+
+  footer { border-top:1px solid var(--border); padding:32px 40px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+  .footer-links { display:flex; gap:24px; list-style:none; }
+  .footer-links a { font-size:12px; color:var(--muted); text-decoration:none; transition:color 0.2s; }
+  .footer-links a:hover { color:var(--cyan); }
+  .footer-copy { font-size:12px; color:rgba(160,200,255,0.3); }
+  @media(max-width:600px){ nav{padding:16px 20px;} .faq-q{padding:18px 20px;} footer{flex-direction:column;} }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">BEHIND <span>SKIING</span></a>
+  <a class="nav-back" href="index.html">← Back</a>
+</nav>
+
+<div class="hero">
+  <div class="page-label">Help Center</div>
+  <h1 class="page-title">Support</h1>
+  <p class="page-sub">Answers to common questions about Behind Skiing. Still stuck? Reach out directly.</p>
+</div>
+
+<div class="section">
+  <div class="section-title">Frequently Asked Questions</div>
+  <p class="section-sub">Tap any question to expand the answer.</p>
+
+  <div class="faq-list">
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggle(this)">
+        Why is the weather not loading?
+        <span class="faq-chevron">&#x2304;</span>
+      </button>
+      <div class="faq-a">Behind Skiing uses Open-Meteo for weather data, which requires an active internet connection. Check your Wi-Fi or cellular signal. If you are in airplane mode or have no signal on the mountain, the app will show the last cached data. Pull down to refresh once you regain connectivity.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggle(this)">
+        Why is the avalanche forecast not showing?
+        <span class="faq-chevron">&#x2304;</span>
+      </button>
+      <div class="faq-a">Avalanche forecasts are published by the Colorado Avalanche Information Center (CAIC) daily, usually by 7 AM Mountain Time. If the forecast has not been published yet for today, the app will display the most recent available forecast. During early morning hours you may see the previous day's data.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggle(this)">
+        The app is asking for my location. Why?
+        <span class="faq-chevron">&#x2304;</span>
+      </button>
+      <div class="faq-a">Location access is used only to show nearby ski services such as rentals, repair shops, and medical facilities in the Shops tab. Your location is processed entirely on your device and is never sent to our servers. You can deny location access and the app will default to Vail Village coordinates for nearby searches.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggle(this)">
+        Are ski run statuses officially from Vail Resorts?
+        <span class="faq-chevron">&#x2304;</span>
+      </button>
+      <div class="faq-a">Run statuses in Behind Skiing are automatically derived from the current avalanche danger level and weather conditions, not from official Vail Resorts systems. Always check resort signage and the official Vail app for authoritative run status. Behind Skiing is a safety reference tool, not an official resort service.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggle(this)">
+        Does the app work without internet?
+        <span class="faq-chevron">&#x2304;</span>
+      </button>
+      <div class="faq-a">Behind Skiing requires an internet connection to fetch live weather and avalanche data. It does not cache full offline data sets. We recommend checking conditions before heading out, as cell coverage on parts of Vail Mountain can be limited.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggle(this)">
+        Is the app free? Are there any subscriptions?
+        <span class="faq-chevron">&#x2304;</span>
+      </button>
+      <div class="faq-a">Yes, Behind Skiing is completely free. There are no subscriptions, no in-app purchases, and no ads. All features are available immediately with no sign-up required.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggle(this)">
+        How often does the data update?
+        <span class="faq-chevron">&#x2304;</span>
+      </button>
+      <div class="faq-a">Weather data from Open-Meteo updates approximately every 15 minutes. Avalanche forecasts from CAIC are updated once daily, typically before 7 AM Mountain Time. The app fetches fresh data each time you open it or manually pull to refresh.</div>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="padding-top:0">
+  <div class="section-title">Contact Us</div>
+  <p class="section-sub">We typically respond within 24 hours.</p>
+  <div class="contact-grid">
+    <div class="contact-card">
+      <div class="contact-icon">📬</div>
+      <h3>GitHub Issues</h3>
+      <p>Report a bug or request a feature directly on our open repository.</p>
+      <a class="contact-btn" href="https://github.com" target="_blank">Open Issue</a>
+    </div>
+    <div class="contact-card">
+      <div class="contact-icon">⭐</div>
+      <h3>App Store Review</h3>
+      <p>Leave feedback through the App Store. We read every review.</p>
+      <a class="contact-btn" href="#" target="_blank">Leave Review</a>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="padding-top:0">
+  <div class="section-title">Known Issues</div>
+  <p class="section-sub">Current status of reported problems.</p>
+  <div class="issue-list">
+    <div class="issue-row">
+      <span class="issue-status status-fixed">Fixed</span>
+      <p>Weather data occasionally not loading on first app launch — resolved in v1.0.1</p>
+    </div>
+    <div class="issue-row">
+      <span class="issue-status status-investigating">Monitoring</span>
+      <p>Shops tab may return limited results in areas with weak cellular signal</p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <a class="nav-logo" href="index.html" style="font-size:16px;color:rgba(160,200,255,0.4);text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-weight:900;">BEHIND SKIING</a>
+  <ul class="footer-links">
+    <li><a href="privacy.html">Privacy Policy</a></li>
+    <li><a href="terms.html">Terms of Use</a></li>
+  </ul>
+  <span class="footer-copy">2025 Behind Skiing. All rights reserved.</span>
+</footer>
+
+<script>
+  function toggle(btn) {
+    const item = btn.closest('.faq-item');
+    item.classList.toggle('open');
+  }
+</script>
+</body>
+</html>
