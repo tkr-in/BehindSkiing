@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Behind Skiing — Download for iPhone</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;600;700;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --navy:#0A0F1A; --card:#14233F; --border:rgba(100,164,255,0.12);
+    --cyan:#64B4FF; --green:#00E5A0; --amber:#FFB830;
+    --text:#E8F4FF; --muted:rgba(160,200,255,0.55);
+  }
+  html { scroll-behavior:smooth; }
+  body { background:var(--navy); color:var(--text); font-family:'Barlow',sans-serif; font-weight:300; line-height:1.6; overflow-x:hidden; }
+
+  /* ── Nav ── */
+  nav { position:fixed; top:0; left:0; right:0; z-index:100; display:flex; align-items:center; justify-content:space-between; padding:16px 32px; background:rgba(10,15,26,0.88); backdrop-filter:blur(14px); border-bottom:1px solid var(--border); }
+  .nav-logo { font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:20px; letter-spacing:1px; color:var(--text); text-decoration:none; }
+  .nav-logo span { color:var(--cyan); }
+  .app-store-btn-sm { display:inline-flex; align-items:center; gap:8px; background:var(--text); color:var(--navy); font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:13px; letter-spacing:1px; text-transform:uppercase; text-decoration:none; padding:9px 20px; border-radius:100px; transition:opacity 0.2s; }
+  .app-store-btn-sm:hover { opacity:0.85; }
+
+  /* ── Hero — full screen, iPhone mockup centered ── */
+  .hero {
+    min-height:100vh; display:flex; align-items:center; justify-content:center;
+    padding:100px 24px 60px;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(100,164,255,0.08) 0%, transparent 70%);
+    position:relative; overflow:hidden;
+  }
+  .hero-inner { display:grid; grid-template-columns:1fr 1fr; align-items:center; gap:60px; max-width:1000px; width:100%; }
+
+  .hero-text { z-index:1; }
+  .hero-badge { display:inline-flex; align-items:center; gap:8px; font-family:'Barlow Condensed',sans-serif; font-size:11px; font-weight:600; letter-spacing:2.5px; text-transform:uppercase; color:var(--green); border:1px solid rgba(0,229,160,0.3); background:rgba(0,229,160,0.07); padding:6px 14px; border-radius:100px; margin-bottom:28px; }
+  .badge-dot { width:6px; height:6px; border-radius:50%; background:var(--green); animation:pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.8)} }
+
+  .hero-text h1 { font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:clamp(52px,7vw,80px); line-height:0.9; text-transform:uppercase; margin-bottom:24px; }
+  .hero-text h1 em { display:block; font-style:normal; background:linear-gradient(135deg,var(--cyan),var(--green)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+  .hero-text p { font-size:17px; color:var(--muted); line-height:1.7; max-width:380px; margin-bottom:36px; }
+
+  .dl-btn { display:inline-flex; align-items:center; gap:12px; background:linear-gradient(135deg,var(--cyan),#3A8BFF); color:var(--navy); font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:17px; letter-spacing:1px; text-transform:uppercase; text-decoration:none; padding:18px 40px; border-radius:6px; transition:transform 0.2s,box-shadow 0.2s; }
+  .dl-btn:hover { transform:translateY(-2px); box-shadow:0 16px 48px rgba(100,164,255,0.35); }
+  .dl-note { margin-top:14px; font-size:12px; color:rgba(160,200,255,0.35); letter-spacing:0.5px; }
+
+  /* iPhone mockup */
+  .phone-wrap { display:flex; justify-content:center; align-items:center; position:relative; }
+  .phone { width:240px; height:490px; background:linear-gradient(160deg,#1a2d4a,#0d1a30); border-radius:40px; border:2px solid rgba(100,164,255,0.3); position:relative; box-shadow:0 40px 100px rgba(0,0,0,0.6), 0 0 0 1px rgba(100,164,255,0.1), inset 0 1px 0 rgba(255,255,255,0.06); overflow:hidden; }
+  .phone::before { content:''; position:absolute; top:14px; left:50%; transform:translateX(-50%); width:80px; height:6px; background:rgba(255,255,255,0.1); border-radius:10px; z-index:10; }
+  .phone-screen { position:absolute; inset:12px; border-radius:30px; background:var(--navy); overflow:hidden; display:flex; flex-direction:column; }
+
+  /* Fake app UI inside phone */
+  .ps-header { background:rgba(10,15,26,0.95); padding:18px 16px 12px; border-bottom:1px solid rgba(100,164,255,0.1); }
+  .ps-temp { font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:48px; color:var(--text); line-height:1; }
+  .ps-loc { font-size:10px; color:var(--muted); letter-spacing:1px; text-transform:uppercase; margin-top:2px; }
+  .ps-row { display:flex; gap:6px; padding:10px 16px; }
+  .ps-chip { flex:1; background:rgba(20,35,63,0.9); border:1px solid var(--border); border-radius:8px; padding:8px 6px; text-align:center; }
+  .ps-chip-val { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:14px; color:var(--cyan); }
+  .ps-chip-lbl { font-size:8px; color:var(--muted); letter-spacing:0.8px; text-transform:uppercase; margin-top:2px; }
+  .ps-danger { margin:0 16px 8px; background:rgba(255,64,96,0.12); border:1px solid rgba(255,64,96,0.3); border-radius:8px; padding:8px 12px; display:flex; align-items:center; gap:8px; }
+  .ps-danger-dot { width:8px; height:8px; border-radius:50%; background:#FF4060; flex-shrink:0; }
+  .ps-danger-text { font-size:9px; font-weight:500; color:rgba(255,160,180,0.9); letter-spacing:0.5px; }
+  .ps-hourly { padding:8px 16px; flex:1; overflow:hidden; }
+  .ps-hour-label { font-size:8px; letter-spacing:1.5px; text-transform:uppercase; color:rgba(160,200,255,0.4); margin-bottom:8px; }
+  .ps-hour-row { display:flex; gap:6px; }
+  .ps-hour { flex:1; background:rgba(20,35,63,0.7); border:1px solid var(--border); border-radius:6px; padding:6px 4px; text-align:center; }
+  .ps-hour-time { font-size:7px; color:var(--muted); }
+  .ps-hour-temp { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:12px; color:var(--text); margin:2px 0; }
+  .ps-hour-snow { font-size:7px; color:var(--cyan); }
+  .ps-tabbar { display:flex; background:rgba(8,14,28,0.98); border-top:1px solid rgba(100,164,255,0.1); padding:8px 0 12px; }
+  .ps-tab { flex:1; text-align:center; font-size:7px; color:rgba(160,200,255,0.4); text-transform:uppercase; letter-spacing:0.5px; }
+  .ps-tab.active { color:var(--cyan); }
+  .ps-tab-icon { font-size:14px; display:block; margin-bottom:2px; }
+
+  /* Glow behind phone */
+  .phone-glow { position:absolute; width:300px; height:300px; border-radius:50%; background:radial-gradient(circle,rgba(100,164,255,0.15),transparent 70%); top:50%; left:50%; transform:translate(-50%,-50%); pointer-events:none; }
+
+  /* ── Feature strips ── */
+  .strips { max-width:1000px; margin:0 auto; padding:80px 24px; display:flex; flex-direction:column; gap:80px; }
+  .strip { display:grid; grid-template-columns:1fr 1fr; align-items:center; gap:60px; }
+  .strip.reverse { direction:rtl; }
+  .strip.reverse > * { direction:ltr; }
+  .strip-text {}
+  .strip-tag { font-family:'Barlow Condensed',sans-serif; font-size:11px; font-weight:600; letter-spacing:2.5px; text-transform:uppercase; color:var(--cyan); opacity:0.6; margin-bottom:10px; }
+  .strip-title { font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:38px; text-transform:uppercase; line-height:1; margin-bottom:14px; }
+  .strip-body { font-size:15px; color:var(--muted); line-height:1.75; }
+  .strip-visual { background:var(--card); border:1px solid var(--border); border-radius:20px; padding:36px; min-height:220px; display:flex; align-items:center; justify-content:center; }
+  .big-stat { text-align:center; }
+  .big-stat-num { font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:80px; line-height:1; background:linear-gradient(135deg,var(--green),var(--cyan)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+  .big-stat-label { font-size:12px; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); margin-top:4px; }
+  .danger-scale { display:flex; flex-direction:column; gap:8px; width:100%; }
+  .danger-row { display:flex; align-items:center; gap:12px; }
+  .danger-bar { height:8px; border-radius:4px; }
+  .danger-name { font-size:11px; font-family:'Barlow Condensed',sans-serif; font-weight:600; letter-spacing:1px; text-transform:uppercase; width:100px; }
+
+  /* ── CTA ── */
+  .cta-block { max-width:600px; margin:0 auto; padding:80px 24px 100px; text-align:center; }
+  .cta-block h2 { font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:clamp(40px,7vw,72px); text-transform:uppercase; line-height:1; margin-bottom:16px; }
+  .cta-block p { font-size:16px; color:var(--muted); margin-bottom:36px; }
+
+  footer { border-top:1px solid var(--border); padding:32px 40px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+  .footer-links { display:flex; gap:24px; list-style:none; }
+  .footer-links a { font-size:12px; color:var(--muted); text-decoration:none; }
+  .footer-links a:hover { color:var(--cyan); }
+  .footer-copy { font-size:12px; color:rgba(160,200,255,0.3); }
+
+  @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+  .hero-text { animation:fadeUp 0.8s ease both; }
+  .phone-wrap { animation:fadeUp 0.8s 0.15s ease both; }
+
+  @media(max-width:760px){
+    .hero-inner, .strip, .strip.reverse { grid-template-columns:1fr; }
+    .strip.reverse { direction:ltr; }
+    .phone { width:200px; height:408px; }
+    .phone-wrap { order:-1; }
+    footer { flex-direction:column; text-align:center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">BEHIND <span>SKIING</span></a>
+  <a class="app-store-btn-sm" href="#">Download Free</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-badge"><span class="badge-dot"></span> Free on the App Store</div>
+      <h1>The Mountain<br><em>Knows Better.</em></h1>
+      <p>Live weather, avalanche danger, and ski run status for Vail, Colorado. All in one app. No account. No cost.</p>
+      <a class="dl-btn" href="#">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+        Download on App Store
+      </a>
+      <p class="dl-note">Free. iPhone. iOS 16 or later. Vail, Colorado.</p>
+    </div>
+
+    <div class="phone-wrap">
+      <div class="phone-glow"></div>
+      <div class="phone">
+        <div class="phone-screen">
+          <div class="ps-header">
+            <div class="ps-temp">18°F</div>
+            <div class="ps-loc">Vail Peak &nbsp;·&nbsp; 11,570 ft</div>
+          </div>
+          <div class="ps-row">
+            <div class="ps-chip">
+              <div class="ps-chip-val">34 mph</div>
+              <div class="ps-chip-lbl">Wind NW</div>
+            </div>
+            <div class="ps-chip">
+              <div class="ps-chip-val">3 mi</div>
+              <div class="ps-chip-lbl">Visibility</div>
+            </div>
+            <div class="ps-chip">
+              <div class="ps-chip-val">42 in</div>
+              <div class="ps-chip-lbl">Snow</div>
+            </div>
+          </div>
+          <div class="ps-danger">
+            <div class="ps-danger-dot"></div>
+            <div class="ps-danger-text">AVALANCHE DANGER: HIGH — Wind Slab</div>
+          </div>
+          <div class="ps-hourly">
+            <div class="ps-hour-label">Hourly Forecast</div>
+            <div class="ps-hour-row">
+              <div class="ps-hour"><div class="ps-hour-time">2 PM</div><div class="ps-hour-temp">18°</div><div class="ps-hour-snow">0.1"</div></div>
+              <div class="ps-hour"><div class="ps-hour-time">3 PM</div><div class="ps-hour-temp">16°</div><div class="ps-hour-snow">0.3"</div></div>
+              <div class="ps-hour"><div class="ps-hour-time">4 PM</div><div class="ps-hour-temp">14°</div><div class="ps-hour-snow">0.5"</div></div>
+              <div class="ps-hour"><div class="ps-hour-time">5 PM</div><div class="ps-hour-temp">12°</div><div class="ps-hour-snow">0.2"</div></div>
+            </div>
+          </div>
+          <div class="ps-tabbar">
+            <div class="ps-tab active"><span class="ps-tab-icon">🌡</span>Temp</div>
+            <div class="ps-tab"><span class="ps-tab-icon">🏔</span>Mountain</div>
+            <div class="ps-tab"><span class="ps-tab-icon">🛍</span>Shops</div>
+            <div class="ps-tab"><span class="ps-tab-icon">🗺</span>Radar</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STRIPS -->
+<div class="strips">
+  <div class="strip">
+    <div class="strip-text">
+      <div class="strip-tag">Weather</div>
+      <div class="strip-title">Know Before You Drop In</div>
+      <p class="strip-body">Real-time temperature, feels-like, wind speed and direction, snow depth, and visibility — updated every 15 minutes from NOAA-backed meteorological models. A wind advisory fires automatically when sustained speeds exceed 30 mph.</p>
+    </div>
+    <div class="strip-visual">
+      <div class="big-stat">
+        <div class="big-stat-num">15m</div>
+        <div class="big-stat-label">Data refresh rate</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="strip reverse">
+    <div class="strip-text">
+      <div class="strip-tag">Avalanche Safety</div>
+      <div class="strip-title">Official CAIC Danger Scale</div>
+      <p class="strip-body">Daily avalanche forecasts from the Colorado Avalanche Information Center, the official US Forest Service source for Colorado. Danger levels, active problem types, and bottom-line summaries — exactly what you need before heading into the backcountry or side country.</p>
+    </div>
+    <div class="strip-visual">
+      <div class="danger-scale">
+        <div class="danger-row"><div class="danger-bar" style="width:30%;background:#4CAF50"></div><span class="danger-name" style="color:#4CAF50">Low</span></div>
+        <div class="danger-row"><div class="danger-bar" style="width:50%;background:#FFC107"></div><span class="danger-name" style="color:#FFC107">Moderate</span></div>
+        <div class="danger-row"><div class="danger-bar" style="width:65%;background:#FF9800"></div><span class="danger-name" style="color:#FF9800">Considerable</span></div>
+        <div class="danger-row"><div class="danger-bar" style="width:82%;background:#FF4060"></div><span class="danger-name" style="color:#FF4060">High</span></div>
+        <div class="danger-row"><div class="danger-bar" style="width:100%;background:#CC0000"></div><span class="danger-name" style="color:#CC0000">Extreme</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="strip">
+    <div class="strip-text">
+      <div class="strip-tag">Nearby Services</div>
+      <div class="strip-title">Help When It Matters</div>
+      <p class="strip-body">One tap to call Vail Ski Patrol or Vail Health Hospital — always pinned at the top. Real-time Apple Maps search for ski rentals, repair, food, and medical services within 5 miles of the mountain.</p>
+    </div>
+    <div class="strip-visual">
+      <div class="big-stat">
+        <div class="big-stat-num">911</div>
+        <div class="big-stat-label">Always one tap away</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-block">
+  <h2>Ready for the mountain?</h2>
+  <p>Free. No sign-up. No subscription. Open the app and go.</p>
+  <a class="dl-btn" href="#">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+    Download Free on App Store
+  </a>
+</div>
+
+<footer>
+  <a class="nav-logo" href="index.html" style="font-size:16px;color:rgba(160,200,255,0.4);text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-weight:900;">BEHIND SKIING</a>
+  <ul class="footer-links">
+    <li><a href="privacy.html">Privacy Policy</a></li>
+    <li><a href="terms.html">Terms of Use</a></li>
+    <li><a href="support.html">Support</a></li>
+  </ul>
+  <span class="footer-copy">2025 Behind Skiing. All rights reserved.</span>
+</footer>
+
+</body>
+</html>
